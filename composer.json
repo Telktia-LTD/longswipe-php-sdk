@@ -1,10 +1,10 @@
 {
-    "name": "ndenisj/longswipe-payment",
+    "name": "telktia/longswipe-payment",
     "description": "Official PHP plugin for Longswipe payment integration",
     "type": "library",
     "version": "1.0.0",
     "keywords": ["payment", "longswipe", "voucher", "php"],
-    "homepage": "https://github.com/ndenisj/longswipe-payment",
+    "homepage": "https://github.com/Telktia-LTD/longswipe-payment",
     "license": "MIT",
     "authors": [
         {
