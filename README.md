@@ -13,7 +13,7 @@ A PHP plugin for integrating Longswipe payment voucher system into your applicat
 Install the package via composer:
 
 ```bash
-composer require ndenisj/longswipe-payment
+composer require longswipe/longswipe-payment
 ```
 
 ### Quick Start

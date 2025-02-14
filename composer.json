@@ -1,5 +1,5 @@
 {
-    "name": "telktia/longswipe-php-sdk",
+    "name": "longswipe/longswipe-php-sdk",
     "description": "Official PHP plugin for Longswipe payment integration",
     "type": "library",
     "version": "1.0.0",
