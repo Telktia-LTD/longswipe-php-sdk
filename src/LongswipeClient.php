@@ -21,7 +21,7 @@ class LongswipeClient {
      * @param array $params [
      *      'voucherCode' => string (required) - The code of the voucher to fetch
      *      'amount' => int (required) - Amount to redeem
-     *      'receivingCurrencyId' => string (required) - ID of the currency to receive
+     *      'toCurrencyAbbreviation' => string (required) - Currency Code to receive
      *      'lockPin' => string (optional) - PIN if voucher is locked
      *      'walletAddress' => string (optional) - Wallet address for redemption
      * ]
@@ -57,7 +57,7 @@ class LongswipeClient {
      * @param array $params [
      *      'voucherCode' => string (required) - The code of the voucher to redeem
      *      'amount' => int (required) - Amount to redeem
-     *      'receivingCurrencyId' => string (required) - ID of the currency to receive
+     *      'toCurrencyAbbreviation' => string (required) - Currency Code to receive
      *      'lockPin' => string (optional) - PIN if voucher is locked
      *      'walletAddress' => string (optional) - Wallet address for redemption
      * ]

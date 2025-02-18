@@ -13,7 +13,7 @@ $client = new LongswipeClient('your-api-key-here', true);
 $params = [
     'voucherCode' => 'VOUCHER123',
     'amount' => 1000,
-    'receivingCurrencyId' => '2eedd32', // Replace with actual receiving currency ID,
+    'toCurrencyAbbreviation' => 'USD', // USD, EUR, NGN, GBP, USDC, USDT
     'lockPin' => '1234', // Optional
     'walletAddress' => '0x123...' // Optional
 ];

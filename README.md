@@ -18,6 +18,27 @@ composer require longswipe/longswipe-payment
 
 ### Quick Start
 
+### Accepted Currency Abbreviation
+
+| Enum |
+| :--- | :--------- |
+| USD  | US Dollar  |
+| EUR  | Euro       |
+| NGN  | Naira      |
+| GBP  | Pounds     |
+| USDC | USD Coin   |
+| USDT | USD Tether |
+
+### Expected Params
+
+| Params                 |                                  |
+| :--------------------- | :------------------------------- |
+| voucherCode            | Voucher code                     |
+| lockPin                | Voucher lock pin (optional)      |
+| amount                 | Amount to redeem                 |
+| toCurrencyAbbreviation | Currency to redeem to            |
+| walletAddress          | Crypto wallet address (optional) |
+
 ```php
 // PHP code block
 use Longswipe\Payment\LongswipeClient;
@@ -30,7 +51,7 @@ $client = new LongswipeClient('your-api-key', true); // true for sandbox, false 
 $params = [
     'voucherCode' => 'VOUCHER123',
     'amount' => 1000,
-    'receivingCurrencyId' => '2eedd32', // Replace with actual receiving currency ID,
+    'toCurrencyAbbreviation' => 'USD', // USD, EUR, NGN, GBP, USDC, USDT
     'lockPin' => '1234', // Optional
     'walletAddress' => '0x123...' // Optional
 ];
@@ -68,7 +89,7 @@ try {
     $params = [
         'voucherCode' => 'VOUCHER123',
         'amount' => 1000,
-        'receivingCurrencyId' => '2eedd32', // Replace with actual receiving currency ID,
+        'toCurrencyAbbreviation' => 'USD', // USD, EUR, NGN, GBP, USDC, USDT
         'lockPin' => '1234', // Optional
         'walletAddress' => '0x123...' // Optional
     ];
@@ -95,7 +116,7 @@ try {
     $params = [
         'voucherCode' => 'VOUCHER123',
         'amount' => 1000,
-        'receivingCurrencyId' => '2eedd32', // Replace with actual receiving currency ID,
+        'toCurrencyAbbreviation' => 'USD', // USD, EUR, NGN, GBP, USDC, USDT
         'lockPin' => '1234', // Optional
         'walletAddress' => '0x123...' // Optional
     ];
