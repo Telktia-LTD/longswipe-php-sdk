@@ -17,6 +17,80 @@ class LongswipeClient {
     }
 
     /**
+     * Create a new customer
+     * @param array $params [
+     *      'email' => string (required),
+     *      'name' => string (required)
+     * ]
+     */
+    public function createCustomer(array $params): array {
+        return $this->makeRequest('merchant-integrations-server/add-new-customer', $params);
+    }
+
+    /**
+     * Create an invoice
+     * @param array $params [
+     *      'blockchainNetworkId' => string (required),
+     *      'currencyId' => string (required),
+     *      'dueDate' => string (required),
+     *      'invoiceDate' => string (required),
+     *      'invoiceItems' => array (required) [
+     *          [
+     *              'description' => string,
+     *              'quantity' => int,
+     *              'unitPrice' => float
+     *          ]
+     *      ],
+     *      'merchantUserId' => string (required)
+     * ]
+     */
+    public function createInvoice(array $params): array {
+        return $this->makeRequest('merchant-integrations-server/create-invoice', $params);
+    }
+
+    /**
+     * Update customer details
+     * @param array $params [
+     *      'id' => string (required),
+     *      'email' => string (optional),
+     *      'name' => string (optional)
+     * ]
+     */
+    public function updateCustomer(array $params): array {
+        return $this->makeRequest('merchant-integrations-server/update-customer', $params, 'PATCH');
+    }
+
+    /**
+     * Delete a customer
+     * @param string $customerId
+     */
+    public function deleteCustomer(string $customerId): array {
+        return $this->makeRequest("merchant-integrations-server/delete-customer/$customerId", [], 'DELETE');
+    }
+
+    /**
+     * Fetch all customers
+     * @param array $params [
+     *      'page' => int (optional),
+     *      'limit' => int (optional),
+     *      'search' => string (optional)
+     * ]
+     */
+    public function fetchCustomers(array $params = []): array {
+        return $this->makeRequest('merchant-integrations-server/fetch-customers', $params, 'GET');
+    }
+
+    /**
+     * Fetch customer by email
+     * @param array $params [
+     *      'email' => string (required)
+     * ]
+     */
+    public function fetchCustomerByEmail(array $params): array {
+        return $this->makeRequest('merchant-integrations-server/fetch-customer-by-email', $params, 'GET');
+    }
+
+    /**
      * Required parameters for fetchVoucherDetails:
      * @param array $params [
      *      'voucherCode' => string (required) - The code of the voucher to fetch
@@ -76,7 +150,7 @@ class LongswipeClient {
         );
     }
 
-    private function makeRequest(string $endpoint, array $params): array {
+    private function makeRequest(string $endpoint, array $params, string $method = 'POST'): array {
         $ch = curl_init("{$this->baseUrl}/$endpoint");
         
         $headers = [
@@ -85,12 +159,22 @@ class LongswipeClient {
             'Accept: application/json'
         ];
 
-        curl_setopt_array($ch, [
+        $curlOptions = [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($params),
             CURLOPT_HTTPHEADER => $headers
-        ]);
+        ];
+
+        if ($method === 'POST' || $method === 'PATCH') {
+            $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
+            $curlOptions[CURLOPT_POSTFIELDS] = json_encode($params);
+        } else if ($method === 'DELETE') {
+            $curlOptions[CURLOPT_CUSTOMREQUEST] = 'DELETE';
+        } else if ($method === 'GET' && !empty($params)) {
+            $endpoint .= '?' . http_build_query($params);
+            curl_setopt($ch, CURLOPT_URL, "{$this->baseUrl}/$endpoint");
+        }
+
+        curl_setopt_array($ch, $curlOptions);
 
         $response = curl_exec($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

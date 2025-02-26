@@ -29,7 +29,7 @@ composer require longswipe/longswipe-payment
 | USDC | USD Coin   |
 | USDT | USD Tether |
 
-### Expected Params
+### Expected Params for fetching currency details and process payment
 
 | Params                 |                                  |
 | :--------------------- | :------------------------------- |
@@ -135,6 +135,178 @@ try {
 }
 ```
 
+### Create new customer
+
+| Params |                |
+| :----- | :------------- |
+| email  | Customer email |
+| name   | Customer name  |
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+// Example parameters
+$params = [
+    'email' => 'johndoe@email.com',
+    'name' => 'John Doe',
+];
+
+try {
+
+    $newCustomer = $client->createCustomer($customerParams);
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
+### Create an invoice
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+// Example parameters
+$invoiceParams = [
+        'blockchainNetworkId' => 'network-123',
+        'currencyId' => 'USD',
+        'dueDate' => '2025-03-26',
+        'invoiceDate' => '2025-02-26',
+        'invoiceItems' => [
+            [
+                'description' => 'Service payment',
+                'quantity' => 1,
+                'unitPrice' => 100.00
+            ]
+        ],
+        'merchantUserId' => 'merchant-123'
+    ];
+
+try {
+
+    $newInvoice = $client->createInvoice($invoiceParams);
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
+### Update customer
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+// Example parameters
+$updateParams = [
+        'id' => 'customer-123',
+        'name' => 'John Updated Doe',
+        'email' => 'john.updated@example.com'
+    ];
+
+try {
+
+    $updatedCustomer = $client->updateCustomer($updateParams);
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
+### Fetch customers
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+try {
+
+    $customers = $client->fetchCustomers([
+        'page' => 1,
+        'limit' => 20,
+        'search' => 'john'
+    ]);
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
+### Fetch customer by email
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+try {
+
+    $customerByEmail = $client->fetchCustomerByEmail([
+        'email' => 'john.doe@example.com'
+    ]);
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
+### Delete customer
+
+```php
+// PHP code block
+use Longswipe\Payment\LongswipeClient;
+use Longswipe\Payment\Exceptions\LongswipeException;
+
+// Initialize the client
+$client = new LongswipeClient('your-api-key', true); // true for sandbox, false for production
+
+try {
+
+    $customerByEmail = $client->deleteCustomer('customer-123');
+
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    echo "Code: " . $e->getCode();
+    var_dump($e->getErrorData());
+}
+
+```
+
 ## API Response Models
 
 ### Fetch Voucher Details Response
@@ -189,7 +361,46 @@ try {
 }
 ```
 
-### Process Payment Response
+### Fetch customers response
+
+```json
+{
+  "code": 0,
+  "data": {
+    "customer": [
+      {
+        "email": "string",
+        "id": "string",
+        "merchantID": "string",
+        "name": "string"
+      }
+    ],
+    "limit": 0,
+    "page": 0,
+    "total": 0
+  },
+  "message": "string",
+  "status": "string"
+}
+```
+
+### Fetch customer response
+
+```json
+{
+  "code": 0,
+  "customer": {
+    "email": "string",
+    "id": "string",
+    "merchantID": "string",
+    "name": "string"
+  },
+  "message": "string",
+  "status": "string"
+}
+```
+
+### Other Response
 
 ```json
 {
