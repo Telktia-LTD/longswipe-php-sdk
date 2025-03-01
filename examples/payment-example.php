@@ -8,8 +8,6 @@ use Longswipe\Payment\Exceptions\LongswipeException;
 // Initialize the client with sandbox mode
 $client = new LongswipeClient('your-api-key-here', true);
 
-
-
 try {
      // 1. Create a new customer
      $customerParams = [

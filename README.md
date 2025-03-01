@@ -72,7 +72,7 @@ try {
 
 ### Detailed Usage
 
-- 1. Initialize the Client
+- Initialize the Client
 
 ```php
 // For sandbox environment
@@ -82,7 +82,64 @@ $client = new LongswipeClient('your-api-key', true);
 $client = new LongswipeClient('your-api-key', false);
 ```
 
-- 2. Fetch Voucher Details
+- Verify voucher (Use Public API Key)
+
+```php
+try {
+    $params = [
+        'voucherCode' => 'VOUCHER123'
+    ];
+
+    $voucherDetails = $client->verifyVoucher($params);
+
+    if ($voucherDetails['status'] === 'success') {
+        // Process voucher details
+        $voucher = $voucherDetails['data'];
+    }
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    if ($e->getErrorData()) {
+        print_r($e->getErrorData());
+    }
+}
+```
+
+- Fetch supported crypto networks (Use Public API Key)
+
+```php
+try {
+    $networks = $client->fetchSupportedCryptoNetworks();
+
+    if ($networks['status'] === 'success') {
+        $networkList = $networks['data'];
+    }
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    if ($e->getErrorData()) {
+        print_r($e->getErrorData());
+    }
+}
+```
+
+- Fetch supported currencies (Use Public API Key)
+
+```php
+try {
+
+    $currencies = $client->fetchSupportedCurrencies();
+
+    if ($currencies['status'] === 'success') {
+        $currencyList = $currencies['data'];
+    }
+} catch (LongswipeException $e) {
+    echo "Error: " . $e->getMessage();
+    if ($e->getErrorData()) {
+        print_r($e->getErrorData());
+    }
+}
+```
+
+- Fetch Voucher Details and Charges (Use Public API Key)
 
 ```php
 try {
@@ -109,7 +166,7 @@ try {
 }
 ```
 
-- 3. Process Payment
+- Process Payment (Use Public API Key)
 
 ```php
 try {
@@ -135,7 +192,7 @@ try {
 }
 ```
 
-### Create new customer
+### Create new customer (Use Secret API Key)
 
 | Params |                |
 | :----- | :------------- |
@@ -168,7 +225,7 @@ try {
 
 ```
 
-### Create an invoice
+### Create an invoice (Use Secret API Key)
 
 ```php
 // PHP code block
@@ -206,7 +263,7 @@ try {
 
 ```
 
-### Update customer
+### Update customer (Use Secret API Key)
 
 ```php
 // PHP code block
@@ -235,7 +292,7 @@ try {
 
 ```
 
-### Fetch customers
+### Fetch customers (Use Secret API Key)
 
 ```php
 // PHP code block
@@ -261,7 +318,7 @@ try {
 
 ```
 
-### Fetch customer by email
+### Fetch customer by email (Use Secret API Key)
 
 ```php
 // PHP code block
@@ -285,7 +342,7 @@ try {
 
 ```
 
-### Delete customer
+### Delete customer (Use Secret API Key)
 
 ```php
 // PHP code block
@@ -394,6 +451,70 @@ try {
     "id": "string",
     "merchantID": "string",
     "name": "string"
+  },
+  "message": "string",
+  "status": "string"
+}
+```
+
+### Fetch supported crypto network response
+
+```json
+{
+  "code": 0,
+  "data": [
+    {
+      "blockExplorerUrl": "string",
+      "chainID": "string",
+      "cryptocurrencies": [
+        {
+          "currencyAddress": "string",
+          "currencyData": {
+            "abbrev": "string",
+            "currencyType": "string",
+            "id": "string",
+            "image": "string",
+            "isActive": true,
+            "name": "string",
+            "symbol": "string"
+          },
+          "currencyDecimals": "string",
+          "currencyName": "string",
+          "id": "string",
+          "longswipeContractAddress": "string",
+          "networkID": "string",
+          "status": true
+        }
+      ],
+      "id": "string",
+      "networkName": "string",
+      "networkType": "EVM",
+      "rpcUrl": "string"
+    }
+  ],
+  "message": "string",
+  "status": "string"
+}
+```
+
+### Fetch supported currency response
+
+```json
+{
+  "code": 0,
+  "data": {
+    "currencies": [
+      {
+        "abbreviation": "string",
+        "createdAt": "string",
+        "currency": "string",
+        "currencyType": "string",
+        "id": "string",
+        "image": "string",
+        "isActive": true,
+        "symbol": "string"
+      }
+    ]
   },
   "message": "string",
   "status": "string"

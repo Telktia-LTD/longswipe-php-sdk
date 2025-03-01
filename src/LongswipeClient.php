@@ -81,6 +81,42 @@ class LongswipeClient {
     }
 
     /**
+     * Fetch all supported currencies
+     * @param array $params []
+     * 
+     * @return array
+     *  - code: int
+     *  - data: array
+     *    - currencies: array
+     *      - abbreviation: string
+     *      - currency: string
+     *      - currencyType: string
+     *      - id: string
+     *      - image: string
+     *      - isActive: bool
+     *      - symbol: string
+     *  - message: string
+     *  - status: string
+     */
+    public function fetchSupportedCurrencies(array $params = []): array {
+        return $this->makeRequest('merchant-integrations-server/fetch-supported-currencies', $params, 'GET');
+    }
+
+    /**
+     * Fetch all supported crypto networks
+     * @param array $params []
+     * 
+     * @return array
+     *  - code: int
+     *  - data: array
+     *  - message: string
+     *  - status: string
+     */
+    public function fetchSupportedCryptoNetworks(array $params = []): array {
+        return $this->makeRequest('merchant-integrations-server/fetch-supported-cryptonetworks', $params, 'GET');
+    }
+
+    /**
      * Fetch customer by email
      * @param array $params [
      *      'email' => string (required)
@@ -121,6 +157,28 @@ class LongswipeClient {
     public function fetchVoucherDetails(array $params): array {
         return $this->makeRequest(
             'merchant-integrations/fetch-voucher-redemption-charges',
+            $params
+        );
+    }
+
+    /**
+     * Required parameters for fetchVoucherDetails:
+     * @param array $params [
+     *      'voucherCode' => string (required) - The code of the voucher to fetch
+     * ]
+     * 
+     * Response structure:
+     * - code: int
+     * - data: object
+     *   - voucher: object (voucher details)
+     * - message: string
+     * - status: string
+     * 
+     * @throws LongswipeException
+     */
+    public function verifyVoucher(array $params): array {
+        return $this->makeRequest(
+            'merchant-integrations/verify-voucher',
             $params
         );
     }
