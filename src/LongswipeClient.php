@@ -99,7 +99,7 @@ class LongswipeClient {
      *  - status: string
      */
     public function fetchSupportedCurrencies(array $params = []): array {
-        return $this->makeRequest('merchant-integrations-server/fetch-supported-currencies', $params, 'GET');
+        return $this->makeRequest('merchant-integrations/fetch-supported-currencies', $params, 'GET');
     }
 
     /**
@@ -113,7 +113,7 @@ class LongswipeClient {
      *  - status: string
      */
     public function fetchSupportedCryptoNetworks(array $params = []): array {
-        return $this->makeRequest('merchant-integrations-server/fetch-supported-cryptonetworks', $params, 'GET');
+        return $this->makeRequest('merchant-integrations/fetch-supported-cryptonetworks', $params, 'GET');
     }
 
     /**
